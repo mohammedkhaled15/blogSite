@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
+// HOME
 router.get("", (req, res) => {
   const locals = {
     title: "NodeJs Blog",
