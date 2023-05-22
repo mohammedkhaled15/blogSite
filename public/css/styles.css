@@ -45,8 +45,15 @@ textarea {
   font-family: "Poppins", sans-serif;
   font-size: var(--font-size-base);
   display: block;
-  width: 100%;
+  width: 80%;
   padding: 0.7rem 0.75rem;
+  margin-bottom: 1rem;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid black;
+  border-radius: 5px;
+}
+label {
   margin-bottom: 1rem;
 }
 
@@ -58,6 +65,12 @@ textarea {
   text-decoration: none;
   margin: 4px 2px;
   cursor: pointer;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+}
+.btn:active {
+  transform: scale(0.98);
 }
 
 .btn-delete {
@@ -341,4 +354,19 @@ img {
   border: 2px solid #a59d9d;
   border-radius: var(--border-radius);
   cursor: pointer;
+}
+
+form.login {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+form.login label {
+  align-self: flex-start;
+  margin-left: 2rem;
+}
+form.login .btn {
+  width: 30%;
+  align-self: center;
 }
