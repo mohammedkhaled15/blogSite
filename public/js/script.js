@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const searchBar = document.querySelector(".searchBar");
   const searchInput = document.getElementById("searchInput");
   const searchClose = document.getElementById("searchClose");
+  const btns = document.querySelectorAll(".btn");
 
   if (searchBtns.length > 0) {
     for (let i = 0; i < searchBtns.length; i++) {
@@ -14,6 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
   }
+
   if (searchClose) {
     searchClose.addEventListener("click", () => {
       searchBar.style.visibility = "hidden";
@@ -21,4 +23,12 @@ document.addEventListener("DOMContentLoaded", () => {
       searchBar.setAttribute("aria-expanded", false);
     });
   }
+
+  // if (btns.length > 0) {
+  //   for (let i = 0; i < btns.length; i++) {
+  //     btns[i].addEventListener("click", (e) => {
+  //       e.preventDefault();
+  //     });
+  //   }
+  // }
 });
