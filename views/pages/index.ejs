@@ -20,9 +20,25 @@
     <% }) %>
   </ul>
 
-  <span>Page no: <%= current %></span>
+  <div class="pagination">
+    <span class="pagination">
+      Page no: <%= currentPage === lastPage?`${currentPage} (last
+      page)`:currentPage %>
+    </span>
 
-  <% if (nextPage !== null) { %>
-  <a href="/?page=<%= nextPage %>" class="pagination">&lt; View Older Posts</a>
-  <% } %>
+    <div class="navigation">
+      <span>
+        <% if (nextPage !== null) { %>
+        <a href="/?page=<%= nextPage %>" class="pagination">&lt; Older Posts</a>
+        <% } %>
+      </span>
+      <span>
+        <% if (prevPage !== null) { %>
+        <a href="/?page=<%= prevPage %>" class="pagination">
+          Newer Posts &gt;</a
+        >
+        <% } %> <%= console.log(prevPage,currentPage,nextPage) %>
+      </span>
+    </div>
+  </div>
 </section>

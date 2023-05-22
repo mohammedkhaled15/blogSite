@@ -150,6 +150,7 @@ img {
   font-size: 1rem;
   font-weight: 600;
   color: var(--black);
+  cursor: pointer;
 }
 
 .header__button button:hover {
@@ -268,12 +269,18 @@ img {
   color: var(--gray);
   text-decoration: none;
   margin-top: 40px;
-  display: inline-block;
+  display: flex;
+  justify-content: space-between;
 }
 .pagination:hover {
   color: var(--black);
 }
-
+.navigation {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  gap: 3rem;
+}
 /* Footer */
 .footer {
   margin: 4rem;
