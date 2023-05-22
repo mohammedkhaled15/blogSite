@@ -16,13 +16,11 @@ router.get("", async (req, res) => {
       .skip(perPage * page - perPage)
       .limit(perPage)
       .exec();
-
     const count = await Post.count();
     const currentPage = parseInt(page);
     const lastPage = Math.ceil(count / parseInt(perPage));
     const nextPage = currentPage === lastPage ? null : currentPage + 1;
     const prevPage = currentPage === 1 ? null : currentPage - 1;
-
     res.render("pages/index", {
       locals,
       data,
@@ -62,14 +60,12 @@ router.post("/search", async (req, res) => {
     };
     const searchTerm = req.body.searchTerm;
     const serchTermNoSpecialChar = searchTerm.replace(/[^a-zA-Z0-9 ]/g, "");
-    // console.log(serchTermNoSpecialChar);
     const result = await Post.find({
       $or: [
         { title: { $regex: new RegExp(serchTermNoSpecialChar, "i") } },
         { body: { $regex: new RegExp(serchTermNoSpecialChar, "i") } },
       ],
     });
-
     res.render("pages/search", { locals, result });
   } catch (error) {
     console.log(error);
