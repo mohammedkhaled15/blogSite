@@ -53,14 +53,15 @@ router.post("/admin/register", async (req, res) => {
   try {
     const { username, password } = req.body;
     const alreadyExistUser = await User.find({ username: username });
-
     if (alreadyExistUser.length > 0) {
       return res.status(500).json({ msg: "Already Existed User" });
     } else {
       const hashedPassword = await bcrypt.hash(password, 10);
-      const newGeneratedUser = new User({ username, password: hashedPassword });
-      await newGeneratedUser.save();
-      res.render("admin/register", { layout: adminLayout });
+      const newGeneratedUser = await User.create({
+        username,
+        password: hashedPassword,
+      });
+      res.render("admin/successRegister", { layout: adminLayout });
     }
   } catch (error) {
     console.log(error);

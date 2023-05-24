@@ -50,8 +50,10 @@ textarea {
   margin-bottom: 1rem;
   border: none;
   outline: none;
-  border-bottom: 1px solid black;
   border-radius: 5px;
+}
+input:focus {
+  border-bottom: 1px solid black;
 }
 label {
   margin-bottom: 1rem;
