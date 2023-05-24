@@ -1,9 +1,19 @@
-<a href="/admin/dashboard" class="btn">Cancel</a>
+<a href="/admin/dashboard">&larr; Cancel</a>
 <div class="admin-title">
   <h2>Add New Post</h2>
 </div>
 
-<form action="/add-post" method="POST">
-  <label for="title">Title</label>
+<form action="/admin/add-post" method="POST">
+  <label for="title"><b>Title</b> </label>
   <input type="text" name="title" id="title" placeholder="Insert Post Title" />
+
+  <label for="body"><b>Content</b> </label>
+  <textarea
+    placeholder="Add Your Content"
+    name="body"
+    id=""
+    cols="50"
+    rows="10"
+  ></textarea>
+  <input type="submit" value="Add" class="btn" />
 </form>

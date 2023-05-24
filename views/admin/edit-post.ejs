@@ -1,0 +1,30 @@
+<a href="/admin/dashboard">&larr; Cancel</a>
+<div class="admin-title">
+  <h2>Edit Post</h2>
+  <form action="/delete-post/<%= postToEdit._id %>" method="POST">
+    <input type="submit" value="Delete" class="btn-delete btn" />
+  </form>
+</div>
+<form action="/admin/edit-post/<%= postToEdit._id %>" method="POST">
+  <label for="title"><b>Title</b> </label>
+  <input
+    type="text"
+    name="title"
+    id="title"
+    placeholder="Insert Post Title"
+    value="<%= postToEdit.title %>"
+  />
+
+  <label for="body"><b>Content</b> </label>
+  <textarea
+    placeholder="Add Your Content"
+    name="body"
+    id=""
+    cols="50"
+    rows="10"
+  >
+  <%= postToEdit.body %>
+</textarea
+  >
+  <input type="submit" value="Edit" class="btn" />
+</form>

@@ -54,7 +54,9 @@ router.get("/admin/register-success", async (req, res) => {
 // POST username, password
 router.post("/admin/register", async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { username, password, confPassword } = req.body;
+    if (password !== confPassword)
+      return res.status(500).json({ msg: "Your passwords not matching" });
     const alreadyExistUser = await User.find({ username: username });
     if (alreadyExistUser.length > 0) {
       return res.status(500).json({ msg: "Already Existed User" });
@@ -149,64 +151,71 @@ router.get("/admin/add-post", jwtValidationThroughCookies, async (req, res) => {
       title: "Dasboard | Add new post",
       description: "Nodejs Blog using expressjs and ejs",
     };
-
     res.render("admin/add-post", { locals, layout: adminLayout });
   } catch (error) {
     console.log(error);
   }
 });
 
-// (async () => {
-//   await Post.insertMany([
-//     {
-//       title: "Blog No 1",
-//       body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse, nobis illo! Totam consectetur id mollitia. Exercitationem suscipit ullam quos et quis perferendis officiis eligendi illum quo enim nam, molestias at. ",
-//     },
-//     {
-//       title: "Blog No 2",
-//       body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse, nobis illo! Totam consectetur id mollitia. Exercitationem suscipit ullam quos et quis perferendis officiis eligendi illum quo enim nam, molestias at. ",
-//     },
-//     {
-//       title: "Blog No 3",
-//       body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse, nobis illo! Totam consectetur id mollitia. Exercitationem suscipit ullam quos et quis perferendis officiis eligendi illum quo enim nam, molestias at. ",
-//     },
-//     {
-//       title: "Blog No 4",
-//       body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse, nobis illo! Totam consectetur id mollitia. Exercitationem suscipit ullam quos et quis perferendis officiis eligendi illum quo enim nam, molestias at. ",
-//     },
-//     {
-//       title: "Blog No 5",
-//       body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse, nobis illo! Totam consectetur id mollitia. Exercitationem suscipit ullam quos et quis perferendis officiis eligendi illum quo enim nam, molestias at. ",
-//     },
-//     {
-//       title: "Blog No 6",
-//       body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse, nobis illo! Totam consectetur id mollitia. Exercitationem suscipit ullam quos et quis perferendis officiis eligendi illum quo enim nam, molestias at. ",
-//     },
-//     {
-//       title: "Blog No 7",
-//       body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse, nobis illo! Totam consectetur id mollitia. Exercitationem suscipit ullam quos et quis perferendis officiis eligendi illum quo enim nam, molestias at. ",
-//     },
-//     {
-//       title: "Blog No 8",
-//       body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse, nobis illo! Totam consectetur id mollitia. Exercitationem suscipit ullam quos et quis perferendis officiis eligendi illum quo enim nam, molestias at. ",
-//     },
-//     {
-//       title: "Blog No 9",
-//       body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse, nobis illo! Totam consectetur id mollitia. Exercitationem suscipit ullam quos et quis perferendis officiis eligendi illum quo enim nam, molestias at. ",
-//     },
-//     {
-//       title: "Blog No 10",
-//       body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse, nobis illo! Totam consectetur id mollitia. Exercitationem suscipit ullam quos et quis perferendis officiis eligendi illum quo enim nam, molestias at. ",
-//     },
-//     {
-//       title: "Blog No 11",
-//       body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse, nobis illo! Totam consectetur id mollitia. Exercitationem suscipit ullam quos et quis perferendis officiis eligendi illum quo enim nam, molestias at. ",
-//     },
-//     {
-//       title: "Blog No 12",
-//       body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse, nobis illo! Totam consectetur id mollitia. Exercitationem suscipit ullam quos et quis perferendis officiis eligendi illum quo enim nam, molestias at. ",
-//     },
-//   ]);
-// })();
+// Add-new-Post Action
+// POST title, body
+router.post(
+  "/admin/add-post",
+  jwtValidationThroughCookies,
+  async (req, res) => {
+    try {
+      const { title, body } = req.body;
+      const newPost = await Post.create({ title, body });
+      res.redirect("/admin/dashboard");
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
+// Edit-Post Page
+// Get
+router.get(
+  "/admin/edit-post/:id",
+  jwtValidationThroughCookies,
+  async (req, res) => {
+    try {
+      const locals = {
+        title: "Dasboard | Edit Post",
+        description: "Nodejs Blog using expressjs and ejs",
+      };
+      const id = req.params.id;
+      const postToEdit = await Post.findById(id);
+      res.render("admin/edit-post", {
+        locals,
+        layout: adminLayout,
+        postToEdit,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
+// Edit-Post Action
+// POST title, body
+router.post(
+  "/admin/edit-post/:id",
+  jwtValidationThroughCookies,
+  async (req, res) => {
+    try {
+      const { title, body } = req.body;
+      const id = req.params.id;
+      const updatedPost = await Post.findByIdAndUpdate(
+        id,
+        { title, body },
+        { returnDocument: "after" }
+      );
+      res.redirect("/admin/dashboard");
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
 
 module.exports = router;

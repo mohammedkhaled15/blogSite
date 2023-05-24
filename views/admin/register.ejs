@@ -2,8 +2,15 @@
 <form action="/admin/register" method="post" class="login">
   <label for="username"><b>Username</b></label>
   <input type="text" placeholder="Username" name="username" id="username" />
-  <label for="username"><b>Password</b></label>
+  <label for="password"><b>Password</b></label>
   <input type="password" name="password" placeholder="Password" id="password" />
+  <label for="confPassword"><b>Password</b></label>
+  <input
+    type="password"
+    name="confPassword"
+    placeholder="Enter Your Password Again"
+    id="confPassword"
+  />
   <a href="/admin">Already have acount?</a>
   <button class="btn">Submit</button>
 </form>
