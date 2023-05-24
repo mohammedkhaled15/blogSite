@@ -5,6 +5,7 @@ const connectDB = require("./server/config/dbConnect");
 const cookeParser = require("cookie-parser");
 const MongoStore = require("connect-mongo");
 const session = require("express-session");
+const methodOvverride = require("method-override");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -14,6 +15,7 @@ connectDB();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookeParser());
+app.use(methodOvverride("_method"));
 app.use(
   session({
     secret: "keyboard cat",

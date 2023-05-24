@@ -128,7 +128,7 @@ router.get(
 
 // Delete Post
 // Delete post._id
-router.post(
+router.delete(
   "/delete-post/:id",
   jwtValidationThroughCookies,
   async (req, res) => {
