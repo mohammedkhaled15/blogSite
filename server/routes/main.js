@@ -71,7 +71,11 @@ router.post("/search", async (req, res) => {
         { body: { $regex: new RegExp(serchTermNoSpecialChar, "i") } },
       ],
     });
-    res.render("pages/search", { locals, result });
+    res.render("pages/search", {
+      locals,
+      result,
+      currentRoute: "pages/search",
+    });
   } catch (error) {
     console.log(error);
   }
