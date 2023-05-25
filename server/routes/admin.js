@@ -5,6 +5,7 @@ const Post = require("../models/Post");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const jwtValidationThroughCookies = require("../middleware/authJwt");
+const { isLoggedFun } = require("../helpers/isLoggedFun");
 
 const adminLayout = "../views/layouts/admin.ejs";
 
@@ -16,7 +17,13 @@ router.get("/admin", async (req, res) => {
       title: "Login Page",
       description: "Nodejs Blog using expressjs and ejs",
     };
-    res.render("admin/login", { locals, layout: adminLayout });
+    const { isLogged, username } = isLoggedFun(req, jwt);
+    res.render("admin/login", {
+      locals,
+      layout: adminLayout,
+      isLogged: false,
+      username,
+    });
   } catch (error) {
     console.log(error);
   }
@@ -30,7 +37,13 @@ router.get("/admin/register", async (req, res) => {
       title: "Register Page",
       description: "Nodejs Blog using expressjs and ejs",
     };
-    res.render("admin/register", { locals, layout: adminLayout });
+    const { isLogged, username } = isLoggedFun(req, jwt);
+    res.render("admin/register", {
+      locals,
+      layout: adminLayout,
+      isLogged,
+      username,
+    });
   } catch (error) {
     console.log(error);
   }
@@ -44,7 +57,13 @@ router.get("/admin/register-success", async (req, res) => {
       title: "Register Success",
       description: "Nodejs Blog using expressjs and ejs",
     };
-    res.render("admin/successRegister", { locals, layout: adminLayout });
+    const { isLogged, username } = isLoggedFun(req, jwt);
+    res.render("admin/successRegister", {
+      locals,
+      layout: adminLayout,
+      isLogged,
+      username,
+    });
   } catch (error) {
     console.log(error);
   }
@@ -118,8 +137,15 @@ router.get(
         title: "Dasboard | Home",
         description: "Nodejs Blog using expressjs and ejs",
       };
+      const { isLogged, username } = isLoggedFun(req, jwt);
       const data = await Post.find();
-      res.render("admin/dashboard", { locals, layout: adminLayout, data });
+      res.render("admin/dashboard", {
+        locals,
+        layout: adminLayout,
+        data,
+        isLogged,
+        username,
+      });
     } catch (error) {
       console.log(error);
     }
@@ -136,7 +162,7 @@ router.delete(
       const id = req.params.id;
       await Post.findByIdAndDelete(id);
       const data = await Post.find();
-      res.render("admin/dashboard", { layout: adminLayout, data });
+      res.redirect("/admin/dashboard");
     } catch (error) {
       console.log(error);
     }
@@ -151,7 +177,13 @@ router.get("/admin/add-post", jwtValidationThroughCookies, async (req, res) => {
       title: "Dasboard | Add new post",
       description: "Nodejs Blog using expressjs and ejs",
     };
-    res.render("admin/add-post", { locals, layout: adminLayout });
+    const { isLogged, username } = isLoggedFun(req, jwt);
+    res.render("admin/add-post", {
+      locals,
+      layout: adminLayout,
+      isLogged,
+      username,
+    });
   } catch (error) {
     console.log(error);
   }
@@ -184,12 +216,15 @@ router.get(
         title: "Dasboard | Edit Post",
         description: "Nodejs Blog using expressjs and ejs",
       };
+      const { isLogged, username } = isLoggedFun(req, jwt);
       const id = req.params.id;
       const postToEdit = await Post.findById(id);
       res.render("admin/edit-post", {
         locals,
         layout: adminLayout,
         postToEdit,
+        isLogged,
+        username,
       });
     } catch (error) {
       console.log(error);
@@ -198,8 +233,8 @@ router.get(
 );
 
 // Edit-Post Action
-// POST title, body
-router.post(
+// PUT title, body
+router.put(
   "/admin/edit-post/:id",
   jwtValidationThroughCookies,
   async (req, res) => {
@@ -217,5 +252,15 @@ router.post(
     }
   }
 );
+// logout Action
+// get
+router.get("/admin/logout", jwtValidationThroughCookies, (req, res) => {
+  try {
+    res.clearCookie("token");
+    res.redirect("/");
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 module.exports = router;

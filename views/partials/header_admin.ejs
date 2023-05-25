@@ -1,6 +1,5 @@
 <header class="header">
   <a href="/" class="header__logo">Admin page</a>
-
   <nav class="header__nav">
     <ul>
       <li>
@@ -14,7 +13,10 @@
       </li>
     </ul>
   </nav>
+  <% if (isLogged) { %>
   <div class="header__button">
-    <button class="searchBtn btn">Logout</button>
+    <h4>Welcome <%= username %></h4>
+    <a href="/admin/logout" class="searchBtn btn">Logout</a>
   </div>
+  <% } %>
 </header>

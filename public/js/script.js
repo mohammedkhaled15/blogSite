@@ -23,12 +23,4 @@ document.addEventListener("DOMContentLoaded", () => {
       searchBar.setAttribute("aria-expanded", false);
     });
   }
-
-  // if (btns.length > 0) {
-  //   for (let i = 0; i < btns.length; i++) {
-  //     btns[i].addEventListener("click", (e) => {
-  //       e.preventDefault();
-  //     });
-  //   }
-  // }
 });

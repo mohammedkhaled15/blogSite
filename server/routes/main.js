@@ -28,6 +28,7 @@ router.get("", async (req, res) => {
       nextPage,
       prevPage,
       lastPage,
+      currentRoute: "/",
     });
   } catch (error) {
     console.log(error);
@@ -73,7 +74,11 @@ router.post("/search", async (req, res) => {
 });
 
 router.get("/about", (req, res) => {
-  res.render("pages/about");
+  const locals = {
+    title: "Search",
+    description: "Nodejs Blog using expressjs and ejs",
+  };
+  res.render("pages/about", { locals, currentRoute: "/about" });
 });
 
 module.exports = router;
