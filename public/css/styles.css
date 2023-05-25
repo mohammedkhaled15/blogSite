@@ -152,6 +152,7 @@ img {
   display: flex;
   justify-content: end;
   grid-area: button;
+  gap: 1rem;
 }
 
 .header__button button {

@@ -17,12 +17,11 @@ router.get("/admin", async (req, res) => {
       title: "Login Page",
       description: "Nodejs Blog using expressjs and ejs",
     };
-    const { isLogged, username } = isLoggedFun(req, jwt);
     res.render("admin/login", {
       locals,
       layout: adminLayout,
       isLogged: false,
-      username,
+      username: "",
     });
   } catch (error) {
     console.log(error);
@@ -37,12 +36,11 @@ router.get("/admin/register", async (req, res) => {
       title: "Register Page",
       description: "Nodejs Blog using expressjs and ejs",
     };
-    const { isLogged, username } = isLoggedFun(req, jwt);
     res.render("admin/register", {
       locals,
       layout: adminLayout,
-      isLogged,
-      username,
+      isLogged: false,
+      username: "",
     });
   } catch (error) {
     console.log(error);
@@ -57,12 +55,11 @@ router.get("/admin/register-success", async (req, res) => {
       title: "Register Success",
       description: "Nodejs Blog using expressjs and ejs",
     };
-    const { isLogged, username } = isLoggedFun(req, jwt);
     res.render("admin/successRegister", {
       locals,
       layout: adminLayout,
-      isLogged,
-      username,
+      isLogged: false,
+      username: "",
     });
   } catch (error) {
     console.log(error);
@@ -88,6 +85,8 @@ router.post("/admin/register", async (req, res) => {
       res.status(201).render("admin/successRegister", {
         layout: adminLayout,
         user: newGeneratedUser,
+        isLogged: false,
+        username: "",
       });
     }
   } catch (error) {
@@ -137,14 +136,13 @@ router.get(
         title: "Dasboard | Home",
         description: "Nodejs Blog using expressjs and ejs",
       };
-      const { isLogged, username } = isLoggedFun(req, jwt);
       const data = await Post.find();
       res.render("admin/dashboard", {
         locals,
         layout: adminLayout,
         data,
-        isLogged,
-        username,
+        isLogged: req?.userId ? true : false,
+        username: req?.username,
       });
     } catch (error) {
       console.log(error);
@@ -177,12 +175,11 @@ router.get("/admin/add-post", jwtValidationThroughCookies, async (req, res) => {
       title: "Dasboard | Add new post",
       description: "Nodejs Blog using expressjs and ejs",
     };
-    const { isLogged, username } = isLoggedFun(req, jwt);
     res.render("admin/add-post", {
       locals,
       layout: adminLayout,
-      isLogged,
-      username,
+      isLogged: req?.userId ? true : false,
+      username: req?.username,
     });
   } catch (error) {
     console.log(error);
@@ -216,15 +213,14 @@ router.get(
         title: "Dasboard | Edit Post",
         description: "Nodejs Blog using expressjs and ejs",
       };
-      const { isLogged, username } = isLoggedFun(req, jwt);
       const id = req.params.id;
       const postToEdit = await Post.findById(id);
       res.render("admin/edit-post", {
         locals,
         layout: adminLayout,
         postToEdit,
-        isLogged,
-        username,
+        isLogged: req?.userId ? true : false,
+        username: req?.username,
       });
     } catch (error) {
       console.log(error);
