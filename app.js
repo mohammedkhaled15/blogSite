@@ -24,6 +24,7 @@ app.use(
     saveUninitialized: true,
     store: MongoStore.create({
       mongoUrl: process.env.MONGODB_URI,
+      autoRemove: true,
     }),
   })
 );
