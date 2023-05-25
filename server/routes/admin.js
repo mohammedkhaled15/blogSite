@@ -70,6 +70,8 @@ router.get("/admin/register-success", async (req, res) => {
 router.post("/admin/register", async (req, res) => {
   try {
     const { username, password, confPassword } = req.body;
+    if (!username || !password || !confPassword)
+      return res.status(500).json({ msg: "You can't leave any field empty" });
     if (password !== confPassword)
       return res.status(500).json({ msg: "Your passwords not matching" });
     const alreadyExistUser = await User.find({ username: username });
@@ -98,6 +100,8 @@ router.post("/admin/register", async (req, res) => {
 router.post("/admin/login", async (req, res) => {
   try {
     const { username, password } = req.body;
+    if (!username || !password)
+      return res.status(500).json({ msg: "You can't leave any field empty" });
     const foundedUser = await User.findOne({ username: username });
     if (!foundedUser) {
       return res.status(401).json({ msg: "Invalid Credentials" });
