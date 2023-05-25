@@ -45,7 +45,11 @@ router.get("/post/:_id", async (req, res) => {
       title: post.title,
       description: "Nodejs Blog using expressjs and ejs",
     };
-    res.render("pages/post", { locals, post });
+    res.render("pages/post", {
+      locals,
+      post,
+      currentRoute: `pages/post/${id}`,
+    });
   } catch (error) {
     console.log(error);
   }
@@ -73,12 +77,24 @@ router.post("/search", async (req, res) => {
   }
 });
 
+// About Page
+// GET
 router.get("/about", (req, res) => {
   const locals = {
-    title: "Search",
+    title: "About",
     description: "Nodejs Blog using expressjs and ejs",
   };
   res.render("pages/about", { locals, currentRoute: "/about" });
+});
+
+// contact Page
+// GET
+router.get("/contact", (req, res) => {
+  const locals = {
+    title: "contacts",
+    description: "Nodejs Blog using expressjs and ejs",
+  };
+  res.render("pages/contact", { locals, currentRoute: "/contact" });
 });
 
 module.exports = router;
