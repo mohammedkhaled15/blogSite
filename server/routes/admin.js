@@ -5,7 +5,6 @@ const Post = require("../models/Post");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const jwtValidationThroughCookies = require("../middleware/authJwt");
-const { isLoggedFun } = require("../helpers/isLoggedFun");
 
 const adminLayout = "../views/layouts/admin.ejs";
 
